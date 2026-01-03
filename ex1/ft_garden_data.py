@@ -10,6 +10,7 @@ class Plant:
 
 def main():
     """Create plant instances and print their initial registry status."""
+
     rose = Plant("Rose", 20, 40)
     orange = Plant("Orange", 12, 120)
     sunflower = Plant("Sunflower", 120, 40)

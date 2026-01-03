@@ -30,6 +30,7 @@ def ft_simulat_week(plants: list):
     Args:
         plants (list): A list of Plant objects to simulate.
     """
+
     height_day1 = {}
 
     print("=== Day 1 ===")
