@@ -34,7 +34,7 @@ def main():
     for plant in Plant.plants:
         print(f"Created: {plant.get_info()}")
 
-    print(f"Total plants created: {Plant.totale}")
+    print(f"\nTotal plants created: {Plant.totale}")
 
 
 if __name__ == "__main__":

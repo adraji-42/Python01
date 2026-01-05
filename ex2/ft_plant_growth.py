@@ -24,12 +24,7 @@ class Plant:
 
 
 def ft_simulat_week(plants: list):
-    """
-    Simulate the growth and aging of a list of plants over 7 days.
-
-    Args:
-        plants (list): A list of Plant objects to simulate.
-    """
+    """Simulate the growth and aging of a list of plants over 7 days."""
 
     height_day1 = {}
 

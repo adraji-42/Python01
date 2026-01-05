@@ -1,14 +1,14 @@
 class SecurePlant:
-    """
-    A class representing a plant with protected data.
-    Ensures data integrity through validation.
-    """
+    """A class representing a plant with protected data."""
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, height: int, p_age: int):
         self.name = name
         self._height = 0
         self._age = 0
         print(f"Plant created: {self.name}")
+
+        self.set_height(height)
+        self.set_age(p_age)
 
     def get_height(self):
         """Returns the current height."""
@@ -41,12 +41,9 @@ def main():
     """Main function to demonstrate the security system."""
     print("=== Garden Security System ===")
 
-    plant = SecurePlant("Rose")
+    plant = SecurePlant("Rose", 25, 30)
 
-    plant.set_height(25)
-    plant.set_age(30)
-
-    plant.set_height(-5)
+    plant.set_age(-1)
 
     print(f"Current plant: {plant.name} "
           f"({plant.get_height()}cm, {plant.get_age()} days)")

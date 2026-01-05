@@ -86,8 +86,8 @@ class Tree(Plant):
         if self.get_height() <= 0 or self._trunk_d <= 0:
             print(f"{self.name} is too small to provide shade.")
             return
-        radius = (self._trunk_d / 100) * 10
-        area = 3.14 * (radius * radius)
+        radius = self._trunk_d / 10
+        area = 3.14 * (radius ** 2)
         print(f"{self.name} provides {area // 1} square meters of shade\n")
 
     def display_info(self):
@@ -99,9 +99,6 @@ class Tree(Plant):
             return
         self.produce_shade()
 
-
-#Tomato (Vegetable): 80cm, 90 days, summer harvest
-#Tomato is rich in vitamin C
 
 class Vegetable(Plant):
 
