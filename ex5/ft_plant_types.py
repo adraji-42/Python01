@@ -37,7 +37,7 @@ class Tree(Plant):
 
     def produce_shade(self):
         """Calculates and prints the shade area based on trunk diameter."""
-        # Using a simplified formula for area: pi * r^2
+
         radius = self.trunk_d / 10
         area = (3.14 * (radius ** 2)) // 1
         # :.0f is used to display the float as an integer in the output
@@ -69,6 +69,7 @@ class Vegetable(Plant):
 
 def main():
     """Main execution point to showcase different plant types."""
+
     print("=== Garden Plant Types ===\n")
 
     # Creating a list of different plant objects (Polymorphism)
