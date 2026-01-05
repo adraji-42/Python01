@@ -18,7 +18,7 @@ class Flower(Plant):
 
     def bloom(self):
         """Displays a message about the flower blooming."""
-        print(f"{self.name} is blooming beautifully!\n")
+        print(f"{self.name} is blooming beautifully!")
 
     def display_info(self):
         """Prints detailed information about the flower."""
@@ -41,7 +41,7 @@ class Tree(Plant):
         radius = self.trunk_d / 10
         area = (3.14 * (radius ** 2)) // 1
         # :.0f is used to display the float as an integer in the output
-        print(f"{self.name} provides {area:.0f} square meters of shade\n")
+        print(f"{self.name} provides {area:.0f} square meters of shade")
 
     def display_info(self):
         """Prints tree-specific details and shade information."""
@@ -64,7 +64,7 @@ class Vegetable(Plant):
         """Prints vegetable-specific information."""
         print(f"{self.name} (Vegetable): {self.height}cm, "
               f"{self.age} days, {self.season} harvest")
-        print(f"{self.name} is {self.nutritional}\n")
+        print(f"{self.name} is {self.nutritional}")
 
 
 def main():
@@ -85,6 +85,7 @@ def main():
     # Iterate through the garden and display information for each plant
     for plant in garden:
         plant.display_info()
+        print()
 
 
 if __name__ == "__main__":
