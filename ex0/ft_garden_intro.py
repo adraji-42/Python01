@@ -1,8 +1,6 @@
-"""Module to introduce garden plants and their status."""
-
-
 def ft_garden_intro(plant_nam: str, height: int, age: int):
     """Display a welcome message and detailed information about a plant."""
+
     print("=== Welcome to My Garden ===")
     print("Plant :", plant_nam)
     print(f"Height: {height}cm")

@@ -39,6 +39,7 @@ class SecurePlant:
 
 def main():
     """Main function to demonstrate the security system."""
+
     print("=== Garden Security System ===")
 
     plant = SecurePlant("Rose", 25, 30)

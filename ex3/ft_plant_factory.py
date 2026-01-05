@@ -1,6 +1,3 @@
-"""Module to simulate plant growth over a week."""
-
-
 class Plant:
     """Class representing a plant's life cycle and growth behaviors."""
 

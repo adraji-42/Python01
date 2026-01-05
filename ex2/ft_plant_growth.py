@@ -1,6 +1,3 @@
-"""Module to simulate plant growth over a week."""
-
-
 class Plant:
     """Class representing a plant's life cycle and growth behaviors."""
 
@@ -52,6 +49,7 @@ def ft_simulat_week(plants: list):
 
 def main():
     """Entry point of the script to initialize and run the simulation."""
+
     Rose = Plant("Rose", 25, 30)
     ft_simulat_week([Rose])
 
