@@ -12,6 +12,9 @@ class Plant:
     def __str__(self):
         return f"{self.name}: {self.height}cm"
 
+    def type(self):
+        return "regular"
+
 
 class FloweringPlant(Plant):
     """Represents a flower that can bloom."""
@@ -25,6 +28,9 @@ class FloweringPlant(Plant):
         status = " (blooming)" if self.is_blooming else ""
         return f"{super().__str__()}, {self.color} flowers{status}"
 
+    def type(self):
+        return "flowering"
+
 
 class PrizeFlower(FloweringPlant):
     """A specialized flower that holds points."""
@@ -35,6 +41,9 @@ class PrizeFlower(FloweringPlant):
 
     def __str__(self):
         return f"{super().__str__()}, Prize points: {self.points}"
+
+    def type(self):
+        return "prize"
 
 
 class Garden:
@@ -48,7 +57,7 @@ class Garden:
 
     def add_plant(self, plant: Plant):
         """Add a plant and log the action."""
-        self.plants.append(plant)
+        self.plants += [plant]
         self.n_plant += 1
         print(f"Added {plant.name} to {self.owner}'s garden")
 
@@ -81,13 +90,13 @@ class GardenManager:
             score = 0
             for plant in plants:
                 score += plant.height + 10
-                if isinstance(plant, PrizeFlower):
+                if plant.type() == "prize":
                     score += plant.points
             return score
 
     def __init__(self, garden: Garden):
         self.garden = garden
-        GardenManager.gardens.append(garden)
+        GardenManager.gardens += [garden]
         GardenManager.total_gardens += 1
 
     @classmethod
@@ -105,12 +114,7 @@ class GardenManager:
 
         for plant in self.garden.plants:
             print(f"- {plant}")
-            if isinstance(plant, PrizeFlower):
-                p_types["prize"] += 1
-            elif isinstance(plant, FloweringPlant):
-                p_types["flowering"] += 1
-            else:
-                p_types["regular"] += 1
+            p_types[plant.type()] += 1
 
         score = self.GardenStats.calculate_score(self.garden.plants)
         print(f"\nPlants added: {self.garden.n_plant}, "
@@ -126,21 +130,22 @@ def main():
     print("=== Garden Management System Demo ===", end="\n\n")
 
     gardens = {
-        "Chaos": None,
-        "Sprit": [Plant("Small Cactus", 82)]
+        "Adam": None,
+        "Hamid": [Plant("Small Cactus", 82)]
     }
+
     network = GardenManager.create_garden_network(gardens)
 
-    network["Chaos"].garden.add_plant(Plant("Oak Tree", 100))
-    network["Chaos"].garden.add_plant(FloweringPlant("Rose", 25, "red"))
-    network["Chaos"].garden.\
+    network["Adam"].garden.add_plant(Plant("Oak Tree", 100))
+    network["Adam"].garden.add_plant(FloweringPlant("Rose", 25, "red"))
+    network["Adam"].garden.\
         add_plant(PrizeFlower("Sunflower", 50, "yellow", 10))
     print()
 
-    network["Chaos"].garden.help_growth(1)
+    network["Adam"].garden.help_growth(1)
     print()
 
-    network["Chaos"].generate_report()
+    network["Adam"].generate_report()
     print()
 
     print(f"Height validation test: {Garden.validate_height(10)}")
@@ -153,7 +158,7 @@ def main():
         print(f"{owner}: {score}", end=", "if
               index < GardenManager.total_gardens else "")
         index += 1
-    print()
+    print(f"\nTotal gardens managed: {GardenManager.total_gardens}")
 
 
 if __name__ == "__main__":
