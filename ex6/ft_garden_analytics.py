@@ -40,6 +40,7 @@ class PrizeFlower(FloweringPlant):
 
 
 class Garden:
+    """Represents a garden containing multiple plants."""
 
     def __init__(self, owner: str):
         self.owner = owner
@@ -94,10 +95,7 @@ class GardenManager:
     @classmethod
     def create_garden_network(cls, owners: list[str]):
         """Class method to create multiple managers for Garden objects."""
-        managers = []
-        for owner in owners:
-            managers += [cls(Garden(owner))]
-        return managers
+        return [cls(Garden(owner)) for owner in owners]
 
     def generate_report(self):
         """Display detailed garden analytics."""
@@ -125,22 +123,25 @@ class GardenManager:
 
 
 def main():
-
+    """Main entry point of the script."""
     print("=== Garden Management System Demo ===", end="\n\n")
 
     chaos_garden = Garden("Chaos")
-    chaos_manage = GardenManager(chaos_garden)
+    chaos_manager = GardenManager(chaos_garden)
 
     chaos_garden.add_plant(Plant("Oak tree", 100))
     chaos_garden.add_plant(FloweringPlant("Rose", 25, "red"))
-    chaos_garden.add_plant(PrizeFlower("Sunflower", 50, "yallow", 10))
+    chaos_garden.add_plant(PrizeFlower("Sunflower", 50, "yellow", 10))
     print()
 
     chaos_garden.help_growth()
     print()
 
-    chaos_manage.generate_report()
+    chaos_score = chaos_manager.generate_report()
     print()
 
+    print(f"Total Garden Score: {chaos_score}")
 
-main()
+
+if __name__ == "__main__":
+    main()
