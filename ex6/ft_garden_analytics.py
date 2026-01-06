@@ -22,9 +22,7 @@ class FloweringPlant(Plant):
         self.is_blooming = True
 
     def __str__(self):
-        status = ""
-        if self.is_blooming:
-            status = " (blooming)"
+        status = " (blooming)" if self.is_blooming else ""
         return f"{super().__str__()}, {self.color} flowers{status}"
 
 
@@ -42,15 +40,15 @@ class PrizeFlower(FloweringPlant):
 class Garden:
     """Represents a garden containing multiple plants."""
 
-    def __init__(self, owner: str):
+    def __init__(self, owner: str, plants: list[Plant] = None):
         self.owner = owner
-        self.plants = []
-        self.n_plant = 0
+        self.plants = plants if plants is not None else []
+        self.n_plant = len(plants) if plants is not None else 0
         self.total_growth = 0
 
     def add_plant(self, plant: Plant):
         """Add a plant and log the action."""
-        self.plants += [plant]
+        self.plants.append(plant)
         self.n_plant += 1
         print(f"Added {plant.name} to {self.owner}'s garden")
 
@@ -82,20 +80,22 @@ class GardenManager:
             """Calculate the total garden score."""
             score = 0
             for plant in plants:
-                score += plant.height
+                score += plant.height + 10
                 if isinstance(plant, PrizeFlower):
                     score += plant.points
             return score
 
     def __init__(self, garden: Garden):
         self.garden = garden
-        GardenManager.gardens += [garden]
+        GardenManager.gardens.append(garden)
         GardenManager.total_gardens += 1
 
     @classmethod
-    def create_garden_network(cls, owners: list[str]):
-        """Class method to create multiple managers for Garden objects."""
-        return [cls(Garden(owner)) for owner in owners]
+    def create_garden_network(cls, gardens: dict[str, list[Plant]]):
+        network = {}
+        for owner in gardens:
+            network[owner] = cls(Garden(owner, gardens[owner]))
+        return network
 
     def generate_report(self):
         """Display detailed garden analytics."""
@@ -111,10 +111,9 @@ class GardenManager:
                 p_types["flowering"] += 1
             else:
                 p_types["regular"] += 1
-        print()
 
         score = self.GardenStats.calculate_score(self.garden.plants)
-        print(f"Plants added: {self.garden.n_plant}, "
+        print(f"\nPlants added: {self.garden.n_plant}, "
               f"Total growth: {self.garden.total_growth}cm")
         print(f"Plant types: {p_types['regular']} regular, "
               f"{p_types['flowering']} flowering, "
@@ -123,24 +122,38 @@ class GardenManager:
 
 
 def main():
-    """Main entry point of the script."""
+    """Main execution flow to match desired output."""
     print("=== Garden Management System Demo ===", end="\n\n")
 
-    chaos_garden = Garden("Chaos")
-    chaos_manager = GardenManager(chaos_garden)
+    gardens = {
+        "Chaos": None,
+        "Sprit": [Plant("Small Cactus", 82)]
+    }
+    network = GardenManager.create_garden_network(gardens)
 
-    chaos_garden.add_plant(Plant("Oak tree", 100))
-    chaos_garden.add_plant(FloweringPlant("Rose", 25, "red"))
-    chaos_garden.add_plant(PrizeFlower("Sunflower", 50, "yellow", 10))
+    network["Chaos"].garden.add_plant(Plant("Oak Tree", 100))
+    network["Chaos"].garden.add_plant(FloweringPlant("Rose", 25, "red"))
+    network["Chaos"].garden.\
+        add_plant(PrizeFlower("Sunflower", 50, "yellow", 10))
     print()
 
-    chaos_garden.help_growth()
+    network["Chaos"].garden.help_growth(1)
     print()
 
-    chaos_score = chaos_manager.generate_report()
+    network["Chaos"].generate_report()
     print()
 
-    print(f"Total Garden Score: {chaos_score}")
+    print(f"Height validation test: {Garden.validate_height(10)}")
+    print("Garden scores -", end=" ")
+
+    index = 1
+    for owner in network:
+        score = GardenManager.GardenStats.\
+            calculate_score(network[owner].garden.plants)
+        print(f"{owner}: {score}", end=", "if
+              index < GardenManager.total_gardens else "")
+        index += 1
+    print()
 
 
 if __name__ == "__main__":
