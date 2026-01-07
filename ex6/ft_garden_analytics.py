@@ -155,8 +155,8 @@ def main():
     for owner in network:
         score = GardenManager.GardenStats.\
             calculate_score(network[owner].garden.plants)
-        print(f"{owner}: {score}", end=", "if
-              index < GardenManager.total_gardens else "")
+        last = ", "if index < GardenManager.total_gardens else ""
+        print(f"{owner}: {score}", end=last)
         index += 1
     print(f"\nTotal gardens managed: {GardenManager.total_gardens}")
 

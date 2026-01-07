@@ -50,8 +50,8 @@ def ft_simulat_week(plants: list):
 def main():
     """Entry point of the script to initialize and run the simulation."""
 
-    Rose = Plant("Rose", 25, 30)
-    ft_simulat_week([Rose])
+    rose = Plant("Rose", 25, 30)
+    ft_simulat_week([rose])
 
 
 if __name__ == "__main__":
