@@ -12,9 +12,6 @@ class Plant:
     def __str__(self):
         return f"{self.name}: {self.height}cm"
 
-    def type(self):
-        return "regular"
-
 
 class FloweringPlant(Plant):
     """Represents a flower that can bloom."""
@@ -28,9 +25,6 @@ class FloweringPlant(Plant):
         status = " (blooming)" if self.is_blooming else ""
         return f"{super().__str__()}, {self.color} flowers{status}"
 
-    def type(self):
-        return "flowering"
-
 
 class PrizeFlower(FloweringPlant):
     """A specialized flower that holds points."""
@@ -42,9 +36,6 @@ class PrizeFlower(FloweringPlant):
     def __str__(self):
         return f"{super().__str__()}, Prize points: {self.points}"
 
-    def type(self):
-        return "prize"
-
 
 class Garden:
     """Represents a garden containing multiple plants."""
@@ -52,12 +43,12 @@ class Garden:
     def __init__(self, owner: str, plants: list[Plant] = None):
         self.owner = owner
         self.plants = plants if plants is not None else []
-        self.n_plant = len(plants) if plants is not None else 0
+        self.n_plant = len(self.plants)
         self.total_growth = 0
 
     def add_plant(self, plant: Plant):
         """Add a plant and log the action."""
-        self.plants += [plant]
+        self.plants.append(plant)
         self.n_plant += 1
         print(f"Added {plant.name} to {self.owner}'s garden")
 
@@ -90,20 +81,20 @@ class GardenManager:
             score = 0
             for plant in plants:
                 score += plant.height + 10
-                if plant.type() == "prize":
+                if isinstance(plant, PrizeFlower):
                     score += plant.points
             return score
 
     def __init__(self, garden: Garden):
         self.garden = garden
-        GardenManager.gardens += [garden]
+        GardenManager.gardens.append(garden)
         GardenManager.total_gardens += 1
 
     @classmethod
-    def create_garden_network(cls, gardens: dict[str, list[Plant]]):
+    def create_garden_network(cls, gardens_data: dict[str, list[Plant]]):
         network = {}
-        for owner in gardens:
-            network[owner] = cls(Garden(owner, gardens[owner]))
+        for owner, plants in gardens_data.items():
+            network[owner] = cls(Garden(owner, plants))
         return network
 
     def generate_report(self):
@@ -114,7 +105,12 @@ class GardenManager:
 
         for plant in self.garden.plants:
             print(f"- {plant}")
-            p_types[plant.type()] += 1
+            if isinstance(plant, PrizeFlower):
+                p_types["prize"] += 1
+            elif isinstance(plant, FloweringPlant):
+                p_types["flowering"] += 1
+            else:
+                p_types["regular"] += 1
 
         score = self.GardenStats.calculate_score(self.garden.plants)
         print(f"\nPlants added: {self.garden.n_plant}, "
@@ -129,17 +125,18 @@ def main():
     """Main execution flow to match desired output."""
     print("=== Garden Management System Demo ===", end="\n\n")
 
-    gardens = {
+    gardens_data = {
         "Adam": None,
         "Hamid": [Plant("Small Cactus", 82)]
     }
 
-    network = GardenManager.create_garden_network(gardens)
+    network = GardenManager.create_garden_network(gardens_data)
 
     network["Adam"].garden.add_plant(Plant("Oak Tree", 100))
     network["Adam"].garden.add_plant(FloweringPlant("Rose", 25, "red"))
-    network["Adam"].garden.\
-        add_plant(PrizeFlower("Sunflower", 50, "yellow", 10))
+    network["Adam"].garden.add_plant(
+        PrizeFlower("Sunflower", 50, "yellow", 10)
+    )
     print()
 
     network["Adam"].garden.help_growth(1)
@@ -153,9 +150,10 @@ def main():
 
     index = 1
     for owner in network:
-        score = GardenManager.GardenStats.\
-            calculate_score(network[owner].garden.plants)
-        last = ", "if index < GardenManager.total_gardens else ""
+        score = GardenManager.GardenStats.calculate_score(
+            network[owner].garden.plants
+        )
+        last = ", " if index < GardenManager.total_gardens else ""
         print(f"{owner}: {score}", end=last)
         index += 1
     print(f"\nTotal gardens managed: {GardenManager.total_gardens}")
