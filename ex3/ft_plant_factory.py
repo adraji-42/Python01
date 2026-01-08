@@ -1,15 +1,15 @@
 class Plant:
     """Class representing a plant's life cycle and growth behaviors."""
 
-    def __init__(self, name: str, height: int, p_age: int):
+    def __init__(self, name: str, height: int, age: int):
         """Initialize plant with its name, height in cm, and age in days."""
         self.name = name
         self.height = height
-        self.p_age = p_age
+        self.age = age
 
     def get_info(self):
         """Return a formatted string containing the plant's current status."""
-        return f"{self.name}: {self.height}cm, {self.p_age} days old"
+        return f"{self.name}: {self.height}cm, {self.age} days old"
 
 
 def main():

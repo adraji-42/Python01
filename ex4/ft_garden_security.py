@@ -1,14 +1,14 @@
 class SecurePlant:
     """A class representing a plant with protected data."""
 
-    def __init__(self, name: str, height: int, p_age: int):
+    def __init__(self, name: str, height: int, age: int):
         self.name = name
         self._height = 0
         self._age = 0
         print(f"Plant created: {self.name}")
 
         self.set_height(height)
-        self.set_age(p_age)
+        self.set_age(age)
 
     def get_height(self):
         """Returns the current height."""
@@ -44,7 +44,7 @@ def main():
 
     plant = SecurePlant("Rose", 25, 30)
 
-    plant.set_age(-1)
+    plant.set_age(-5)
 
     print(f"Current plant: {plant.name} "
           f"({plant.get_height()}cm, {plant.get_age()} days)")

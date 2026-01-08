@@ -39,7 +39,7 @@ class Tree(Plant):
         """Calculates and prints the shade area based on trunk diameter."""
 
         radius = self.trunk_d / 10
-        area = (3.14 * (radius ** 2)) // 1
+        area = (3.14 * (radius ** 2))
         # :.0f is used to display the float as an integer in the output
         print(f"{self.name} provides {area:.0f} square meters of shade")
 
@@ -64,7 +64,7 @@ class Vegetable(Plant):
         """Prints vegetable-specific information."""
         print(f"{self.name} (Vegetable): {self.height}cm, "
               f"{self.age} days, {self.season} harvest")
-        print(f"{self.name} is {self.nutritional}")
+        print(f"{self.name} is rich in {self.nutritional}")
 
 
 def main():
@@ -78,8 +78,8 @@ def main():
         Flower("Blue Spider Lily", 45, 25, "Blue"),
         Tree("Oak", 500, 1825, 50),
         Tree("Spruce", 950, 1100, 5),
-        Vegetable("Tomato", 80, 90, "Summer", "rich in vitamin C"),
-        Vegetable("Potato", 75, 100, "Summer", "rich in Potassium")
+        Vegetable("Tomato", 80, 90, "Summer", "vitamin C"),
+        Vegetable("Potato", 75, 100, "Summer", "Potassium")
     ]
 
     # Iterate through the garden and display information for each plant
